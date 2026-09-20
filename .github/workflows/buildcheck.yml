@@ -1,6 +1,7 @@
 name: Build Check
 
 on:
+  workflow_dispatch:
   schedule:
     # run every sunday at 06:17 UTC
     - cron: "17 6 * * 0"
