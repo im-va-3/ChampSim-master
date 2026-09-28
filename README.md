@@ -87,3 +87,20 @@ ChampSim measures the IPC (Instruction Per Cycle) value as a performance metric.
 There are some other useful metrics printed out at the end of simulation. <br>
 
 Good luck and be a champion! <br>
+
+
+## Step-by-step user guide
+
+1. **Prepare dependencies.** Initialize the vcpkg submodule and install its dependencies as shown above. Build on a supported Linux/macOS development environment with the required compiler and tools.
+2. **Choose a configuration.** Copy [champsim_config.json](champsim_config.json), select the CPU/core count and cache hierarchy, and choose branch prediction, prefetchers, and replacement policies. The schema and defaults are described in [docs](docs/).
+3. **Build the simulator.** Run <code>./config.sh champsim_config.json</code>, followed by <code>make -j</code>. Re-run both after changing modules or configuration so the generated simulator matches the experiment.
+4. **Prepare a trace.** Use a ChampSim trace from the sources linked above or create one with a supported tool in [tracer](tracer/). Record the trace source and workload parameters with your results.
+5. **Run and compare experiments.** Execute <code>bin/champsim --warmup-instructions 200000000 --simulation-instructions 500000000 path/to/trace.champsimtrace.xz</code>. Warmup advances caches and predictors; reported statistics cover the simulation interval. Compare IPC and other counters using identical instruction counts.
+6. **Add a research component.** Copy the closest file under [branch](branch/), [prefetcher](prefetcher/), or [replacement](replacement/), implement its callbacks, select it in the JSON config, rebuild, and compare against the baseline.
+
+### Functionality map
+
+- Trace-driven CPU/cache simulation; selectable cores and cache hierarchy; warmup and measured phases; IPC and detailed microarchitectural counters.
+- Pluggable branch predictors, instruction/data prefetchers, and cache replacement policies; JSON configuration and trace generation.
+- See [docs](docs/), [tracer](tracer/), and the module directories for configuration fields, trace formats, module APIs, and evaluation guidance.
+
